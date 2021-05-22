@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { images } from "./utils";
+import "./styles.css";
 
-function App() {
+const App = () => {
+  const [selectedImage, setSelectedImage] = useState();
+
+  const changeHandler = (image) => setSelectedImage(image);
+
+  useEffect(() => {
+    setSelectedImage(images[0]);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <div className="nav-container">
+        {images.map((image, i) => (
+          <button key={i} onClick={() => changeHandler(image)}>
+            {image.title}
+          </button>
+        ))}
+      </div>
+      <div className="main-image">
+        <p>{`This is the view from ${selectedImage?.title}`}</p>
+        <img alt="main-image" src={selectedImage?.url} />
+      </div>
+
+      <div className="images-container">
+        {images.map((image, i) => (
+          <div className="image-container">
+            <img key={i} src={image.url} onClick={() => changeHandler(image)} />
+            <p>{image.title}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
